@@ -1,0 +1,27 @@
+package de.superchat.crm.entity;
+
+import de.superchat.crm.entity.enums.MessageContentType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "message_content",schema = "public" )
+public class MessageContent {
+
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
+
+
+    @Column(name="content_type")
+    private MessageContentType contentType;
+
+    @Column(name = "content")
+    private String content;
+}
