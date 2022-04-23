@@ -27,9 +27,14 @@ public class ContactMessage {
     @Enumerated(EnumType.STRING)
     private MessageStatus messageStatus;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "msg_content", referencedColumnName = "id")
     private MessageContent messageContent;
+
+    @ManyToOne
+    @JoinColumn(name = "contact", referencedColumnName = "id")
+    private Contact contact;
+
 
     @Column(name = "msg_preview")
     private String messagePreview;

@@ -8,6 +8,9 @@ spring:
     username: postgres
     password: saewdfg
   #handling database change log config
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.xml
   kafka:
     bootstrap-servers: "localhost:29092"
 server:
