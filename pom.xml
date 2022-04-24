@@ -12,7 +12,7 @@
 	<artifactId>crm</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>crm</name>
-	<description>A simple CRM with functunality of messaging via different channels </description>
+	<description>A simple CRM with functionality of messaging via different channels </description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -141,6 +141,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -149,6 +150,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 		</plugins>
 	</build>
 

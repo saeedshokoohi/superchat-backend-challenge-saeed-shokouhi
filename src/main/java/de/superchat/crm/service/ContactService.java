@@ -4,7 +4,10 @@ import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
 import de.superchat.crm.dto.mapper.ContactMapper;
 import de.superchat.crm.entity.Contact;
+import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.repository.ContactRepository;
+import de.superchat.crm.util.DateTimeUtil;
+import de.superchat.crm.validator.ContactValidator;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,9 +24,11 @@ public class ContactService {
      * @param contactDto contactDto to create
      * @return
      */
-    public ContactDto create(ContactDto contactDto)
-    {
+    public ContactDto create(ContactDto contactDto) throws InvalidModelException {
+        ContactValidator.validateContact(contactDto);
         Contact contact= ContactMapper.toEntity(contactDto);
+        contact.setDateCreated(DateTimeUtil.now());
+        contact.setId(null);
         return ContactMapper.toDto(contactRepository.save(contact));
     }
 
