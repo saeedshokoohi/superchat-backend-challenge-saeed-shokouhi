@@ -23,6 +23,9 @@ public class ContactMessage {
     @Enumerated(EnumType.STRING)
     private MessageDirection direction;
 
+    @Column(name = "date_created")
+    private Long dateCreated;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private MessageStatus messageStatus;
@@ -41,10 +44,6 @@ public class ContactMessage {
 
     @Column(name="msg_source")
     private String messageSource;
-
-
-
-
 
 
 
