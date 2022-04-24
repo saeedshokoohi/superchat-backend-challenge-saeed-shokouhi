@@ -31,7 +31,5 @@ public class Contact {
     @Column(name = "date_created")
     private Long dateCreated;
 
-    public String getFullName() {
-        return String.format("%s %s", name, lastName);
-    }
+
 }
