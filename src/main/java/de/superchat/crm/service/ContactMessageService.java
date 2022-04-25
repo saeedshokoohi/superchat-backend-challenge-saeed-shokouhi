@@ -1,6 +1,7 @@
 package de.superchat.crm.service;
 
 import de.superchat.crm.dto.ContactMessageDto;
+import de.superchat.crm.dto.ContactMessageListDto;
 import de.superchat.crm.dto.ExternalMessageDto;
 import de.superchat.crm.dto.mapper.ContactMessageMapper;
 import de.superchat.crm.entity.Contact;
@@ -15,7 +16,9 @@ import de.superchat.crm.repository.ContactRepository;
 import de.superchat.crm.util.DateTimeUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static de.superchat.crm.validator.ContactValidator.THERE_IS_NO_CONTACT_WITH_GIVEN_EMAIL_ADDRESS;
 
@@ -53,6 +56,7 @@ public class ContactMessageService {
            contactMessage.setMessageSource(SUPERCHAT);
            //applying placeholders
            messageContentService.applyPlaceholders(contactMessage);
+           contactMessage.setMessagePreview(messageContentService.makeTextMessagePreview(contactMessage.getMessageContent().getContent()));
            return ContactMessageMapper.toDto(this.contactMessageRepository.save(contactMessage));
        }
 
@@ -72,8 +76,19 @@ public class ContactMessageService {
         contactMessage.setMessageStatus(MessageStatus.DELIVERED);
         contactMessage.setDirection(MessageDirection.IN);
         contactMessage.setMessageSource(message.getSource());
+        contactMessage.setMessagePreview(messageContentService.makeTextMessagePreview(message.getMessage()));
         this.contactMessageRepository.save(contactMessage);
 
+    }
+
+    /**
+     * Get List of messages by contact email
+     * @param email
+     * @return
+     */
+    public ContactMessageListDto messageListByEmail(String email) {
+        List<ContactMessage> contactMessages = contactMessageRepository.findByContactEmail(email);
+        return new ContactMessageListDto(contactMessages.stream().map(ContactMessageMapper::toDto).collect(Collectors.toList()));
     }
 
     /**
@@ -88,8 +103,10 @@ public class ContactMessageService {
 
         contactMessage.setMessageContent(new MessageContent(message));
         contactMessage.setDateCreated(DateTimeUtil.now());
-        contactMessage.setMessagePreview(messageContentService.makeTextMessagePreview(message));
+
         return contactMessage;
 
     }
+
+
 }

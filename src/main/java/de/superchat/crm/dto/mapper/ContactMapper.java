@@ -1,5 +1,6 @@
 package de.superchat.crm.dto.mapper;
 
+import de.superchat.crm.dto.BasicContactDto;
 import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
 import de.superchat.crm.entity.Contact;
@@ -29,7 +30,14 @@ public class ContactMapper {
         return contact==null ? null
                 : new ContactDto(contact.getId(), contact.getName(), contact.getLastName(),contact.getEmail(),contact.getDateCreated());
     }
-
+    /**
+     * mapping Contact to BasicContactDto
+     */
+    public static BasicContactDto toBasicDto(Contact contact)
+    {
+        return contact==null ? null
+                : new BasicContactDto( contact.getName(), contact.getLastName(),contact.getEmail());
+    }
 
     /**
      * converting Iterable of Entity to ContactListDto

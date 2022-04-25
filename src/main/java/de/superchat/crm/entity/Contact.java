@@ -15,7 +15,7 @@ import javax.validation.constraints.Email;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(generator ="contact_sequence")
     private Long id;
 
     @Column(name = "first_name", nullable = false)

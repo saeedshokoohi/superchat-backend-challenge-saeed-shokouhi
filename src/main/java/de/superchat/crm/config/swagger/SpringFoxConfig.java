@@ -19,7 +19,7 @@ public class SpringFoxConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("de.superchat.crm.rest")).
+                .apis(RequestHandlerSelectors.basePackage("de.superchat.crm.api")).
                 paths(PathSelectors.any()).build();
     }
 

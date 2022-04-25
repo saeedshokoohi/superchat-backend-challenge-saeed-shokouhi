@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class MessageContent {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(generator = "message_content_sequence")
     private Long id;
 
 

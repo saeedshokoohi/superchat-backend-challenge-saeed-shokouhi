@@ -4,27 +4,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ContactDto {
-
+public class ContactDto extends BasicContactDto {
 
     private Long id;
-    @NotNull
-    private String name;
-    @NotNull
-    private String lastName;
-    @Email
-    @NotNull
-    private String email;
     private Long dateCreated;
 
-    public String getFullName() {
-        return String.format("%s %s", name, lastName);
+    public ContactDto(Long id,String name, String lastName, String email, Long dateCreated) {
+        super(name, lastName, email);
+        this.id = id;
+        this.dateCreated = dateCreated;
+    }
+
+    public ContactDto(BasicContactDto contact) {
+        super(contact.getName(),contact.getLastName(),contact.getEmail());
     }
 }

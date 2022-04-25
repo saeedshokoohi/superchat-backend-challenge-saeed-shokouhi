@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class ContactMessage {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(generator = "contact_message_sequence")
     private Long id;
 
     @Column(name = "dir", nullable = false)

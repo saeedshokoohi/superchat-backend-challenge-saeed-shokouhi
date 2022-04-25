@@ -1,6 +1,5 @@
-package de.superchat.crm.rest;
+package de.superchat.crm.api;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,31 +16,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
-import de.superchat.crm.dto.mapper.ContactMapper;
 import de.superchat.crm.exception.InvalidModelException;
-import de.superchat.crm.repository.ContactRepository;
 import de.superchat.crm.service.ContactService;
 import de.superchat.crm.util.DateTimeUtil;
-import de.superchat.crm.validator.ContactValidator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +55,7 @@ class ContactResourceTest {
         when(contactService.getAll()).thenReturn(contactListDto);
 
         //then
-        String expectedContent="{\"list\":[{\"id\":4000,\"name\":\"Saeed\",\"lastName\":\"Shokouhi\",\"email\":\"saeed@gmail.com\",\"dateCreated\":null,\"fullName\":\"Saeed Shokouhi\"}]}";
+        String expectedContent="{\"list\":[{\"name\":\"Saeed\",\"lastName\":\"Shokouhi\",\"email\":\"saeed@gmail.com\",\"id\":4000,\"dateCreated\":null,\"fullName\":\"Saeed Shokouhi\"}]}";
         this.mockMvc
                 .perform(get("/api/contact/list")) // perform a request that can be chained
                 .andExpect(status().isOk())

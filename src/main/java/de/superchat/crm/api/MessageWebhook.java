@@ -1,4 +1,4 @@
-package de.superchat.crm.webhook;
+package de.superchat.crm.api;
 
 
 import de.superchat.crm.dto.ExternalMessageDto;

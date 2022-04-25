@@ -6,7 +6,6 @@ import de.superchat.crm.exception.PlaceholderHandlingException;
 import de.superchat.crm.service.placeholder.BitcoinPricePlaceholderFiller;
 import de.superchat.crm.service.placeholder.ContactNamePlaceholderFiller;
 import de.superchat.crm.service.placeholder.PlaceholderFiller;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.List;
 @Service
 public class MessageContentService {
 
+    public static final int MESSAGE_PREVIEW_MAX_LENGTH = 20;
     final BitcoinPriceService bitcoinPriceService;
 
     public MessageContentService(BitcoinPriceService bitcoinPriceService) {
@@ -58,7 +58,7 @@ public class MessageContentService {
 
 
     public String makeTextMessagePreview(String message) {
-        return message==null?"": limitedMessageLength(message,20);
+        return message==null?"": limitedMessageLength(message, MESSAGE_PREVIEW_MAX_LENGTH);
     }
 
     private String limitedMessageLength(String message, int maxLength)

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Basic;
+
 
 @Data
 @NoArgsConstructor
@@ -16,13 +18,13 @@ public class ContactMessageDto {
 
     private MessageDirection direction;
 
-    private Long dateCreated;
+    private String dateCreated;
 
-    private MessageStatus messageStatus;
+    private MessageStatus status;
 
-    private MessageContentDto messageContent;
+    private String message;
 
-    private ContactDto contact;
+    private BasicContactDto contact;
 
     private String messagePreview;
 

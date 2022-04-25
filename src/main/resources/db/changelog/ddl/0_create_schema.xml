@@ -8,13 +8,19 @@
     <changeSet id="1650869782542-1"
                author="SaeedSh (generated)">
         <createSequence incrementBy="1"
-                        sequenceName="hibernate_sequence"
+                        sequenceName="contact_sequence"
+                        startValue="1"/>
+        <createSequence incrementBy="1"
+                        sequenceName="contact_message_sequence"
+                        startValue="1"/>
+        <createSequence incrementBy="1"
+                        sequenceName="message_content_sequence"
                         startValue="1"/>
     </changeSet>
     <changeSet id="1650869782542-2"
                author="SaeedSh (generated)">
         <createTable tableName="contact">
-            <column name="id"
+            <column name="id" valueSequenceNext="contact_sequence" defaultValueSequenceNext="contact_sequence"
                     type="BIGINT">
                 <constraints nullable="false"
                              primaryKey="true"
@@ -30,7 +36,7 @@
             </column>
             <column name="email"
                     type="VARCHAR(255)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="date_created"
                     type="BIGINT"/>
@@ -38,8 +44,9 @@
     </changeSet>
     <changeSet id="1650869782542-3"
                author="SaeedSh (generated)">
-        <createTable tableName="contact_message">
-            <column name="id"
+        <createTable tableName="contact_message" >
+            <column name="id" valueSequenceNext="contact_message_sequence"
+                    defaultValueSequenceNext="contact_message_sequence"
                     type="BIGINT">
                 <constraints nullable="false"
                              primaryKey="true"
@@ -68,7 +75,7 @@
     <changeSet id="1650869782542-4"
                author="SaeedSh (generated)">
         <createTable tableName="message_content">
-            <column name="id"
+            <column name="id" valueSequenceNext="message_content_sequence" defaultValueSequenceNext="message_content_sequence"
                     type="BIGINT">
                 <constraints nullable="false"
                              primaryKey="true"
@@ -77,7 +84,7 @@
             <column name="content_type"
                     type="INT"/>
             <column name="content"
-                    type="VARCHAR(255)"/>
+                    type="ntext"/>
         </createTable>
     </changeSet>
     <changeSet id="1650869782542-5"

@@ -1,16 +1,14 @@
-package de.superchat.crm.rest;
+package de.superchat.crm.api;
 
 
 import de.superchat.crm.dto.ContactMessageDto;
+import de.superchat.crm.dto.ContactMessageListDto;
 import de.superchat.crm.dto.SendMessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
 import de.superchat.crm.service.ContactMessageService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping(path = "api/message/")
 @RestController
@@ -36,6 +34,14 @@ public class ContactMessageResource {
        return ResponseEntity.ok(
         contactMessageService.sendTextMessage(sendMessageDto.getReceiverEmail(), sendMessageDto.getMessage()));
 
+    }
+
+    @GetMapping("list/{email}")
+    public ResponseEntity<ContactMessageListDto> messageListByEmail(@PathVariable("email") String email)
+    {
+        return ResponseEntity.ok(
+                contactMessageService.messageListByEmail(email)
+        );
     }
 
 
