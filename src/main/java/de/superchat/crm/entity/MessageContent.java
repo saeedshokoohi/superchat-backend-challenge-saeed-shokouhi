@@ -24,4 +24,14 @@ public class MessageContent {
 
     @Column(name = "content")
     private String content;
+
+    public MessageContent(MessageContentType contentType, String content) {
+        this.contentType = contentType;
+        this.content = content;
+    }
+
+    public MessageContent(String content) {
+        this.contentType = MessageContentType.TEXT;
+        this.content = content;
+    }
 }
