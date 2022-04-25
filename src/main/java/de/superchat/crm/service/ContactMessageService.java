@@ -22,6 +22,7 @@ import static de.superchat.crm.validator.ContactValidator.THERE_IS_NO_CONTACT_WI
 @Service
 public class ContactMessageService {
 
+    public static final String SUPERCHAT = "SUPERCHAT";
     final ContactMessageRepository contactMessageRepository;
     final ContactRepository contactRepository;
     final MessageContentService messageContentService;
@@ -32,7 +33,15 @@ public class ContactMessageService {
         this.messageContentService = messageContentService;
     }
 
-    public ContactMessageDto sendTextMessageMessage(String sendToEmail,String message) throws InvalidModelException, PlaceholderHandlingException {
+    /**
+     * Send text message to contact
+     * @param sendToEmail receiver contact email
+     * @param message the message to send
+     * @return saved message detail
+     * @throws InvalidModelException is validation error
+     * @throws PlaceholderHandlingException if any exception in placeholder filling
+     */
+    public ContactMessageDto sendTextMessage(String sendToEmail, String message) throws InvalidModelException, PlaceholderHandlingException {
         //getting contact by email
        Optional<Contact> contact=contactRepository.findByEmail(sendToEmail);
        if(contact.isEmpty()) { throw new InvalidModelException("Email", THERE_IS_NO_CONTACT_WITH_GIVEN_EMAIL_ADDRESS);}
@@ -41,6 +50,7 @@ public class ContactMessageService {
            ContactMessage contactMessage = createContactTextMessage(contact.get(), message);
            contactMessage.setMessageStatus(MessageStatus.SENT);
            contactMessage.setDirection(MessageDirection.OUT);
+           contactMessage.setMessageSource(SUPERCHAT);
            //applying placeholders
            messageContentService.applyPlaceholders(contactMessage);
            return ContactMessageMapper.toDto(this.contactMessageRepository.save(contactMessage));
@@ -48,9 +58,11 @@ public class ContactMessageService {
 
     }
 
-
-
-
+    /**
+     * receiving external message in persisting the message is IN message
+     * @param message received message
+     * @throws InvalidModelException if received message has validation error
+     */
     public void receiveExternalMessage(ExternalMessageDto message) throws InvalidModelException {
         //getting contact by email
         Optional<Contact> contact=contactRepository.findByEmail(message.getSenderEmail());
@@ -59,10 +71,17 @@ public class ContactMessageService {
         ContactMessage contactMessage=createContactTextMessage(contact.get(), message.getMessage());
         contactMessage.setMessageStatus(MessageStatus.DELIVERED);
         contactMessage.setDirection(MessageDirection.IN);
+        contactMessage.setMessageSource(message.getSource());
         this.contactMessageRepository.save(contactMessage);
 
     }
 
+    /**
+     * wrapping a ContactMessage object using contact and message
+     * @param contact relevant contact
+     * @param message text message
+     * @return initiated ContactMessage
+     */
     private ContactMessage createContactTextMessage(Contact contact, String message) {
         ContactMessage contactMessage=new ContactMessage();
         contactMessage.setContact(contact);
