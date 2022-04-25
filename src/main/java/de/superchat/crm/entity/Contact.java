@@ -32,4 +32,7 @@ public class Contact {
     private Long dateCreated;
 
 
+    public String getFullName() {
+        return String.format("%s %s", name, lastName);
+    }
 }

@@ -18,6 +18,8 @@ public class ContactValidator {
     public static final String LAST_NAME_IS_REQUIRED = "Last Name is required.";
     public static final String NAME_IS_REQUIRED = "Name is required.";
     public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "Email is not a valid email address";
+    public static final String THERE_IS_NO_CONTACT_WITH_GIVEN_EMAIL_ADDRESS = "There is no contact with given email address";
+
 
     private ContactValidator() {
     }
