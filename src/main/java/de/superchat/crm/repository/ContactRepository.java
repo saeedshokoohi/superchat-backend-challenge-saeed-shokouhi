@@ -9,4 +9,5 @@ public interface ContactRepository extends CrudRepository<Contact, Long> {
 
     Optional<Contact> findByEmail(String email);
 
+    Optional<Contact> findByClientIdAndClientPlatform(String clientId, String clientPlatform);
 }

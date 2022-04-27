@@ -2,7 +2,6 @@ package de.superchat.crm.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
@@ -10,7 +9,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import de.superchat.crm.dto.ContactDto;
-import de.superchat.crm.dto.ContactListDto;
 import de.superchat.crm.dto.mapper.ContactMapper;
 import de.superchat.crm.entity.Contact;
 import de.superchat.crm.exception.InvalidModelException;
@@ -37,12 +35,12 @@ class ContactServiceTest {
     @Test
     void testCreate() throws InvalidModelException {
         //given
-        Contact contact = new Contact(121l,"Saeed","Shokouhi","saeed@gmail.com", DateTimeUtil.now());
+        Contact contact = new Contact(121l,"we","wer","Saeed","Shokouhi","saeed@gmail.com", DateTimeUtil.now());
         ContactDto contactDto = ContactMapper.toDto(contact);
         when(this.contactRepository.save((Contact) any())).thenReturn(contact);
 
         //when
-        ContactDto actualCreateResult = this.contactService.create(contactDto);
+        ContactDto actualCreateResult = this.contactService.createConfirmedContact(contactDto);
 
         //then
         assertEquals(contactDto.getEmail(),actualCreateResult.getEmail());

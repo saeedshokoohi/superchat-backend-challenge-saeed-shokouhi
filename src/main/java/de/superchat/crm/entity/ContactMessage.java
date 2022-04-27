@@ -19,6 +19,7 @@ public class ContactMessage {
     @GeneratedValue(generator = "contact_message_sequence")
     private Long id;
 
+    //define which it is Incoming or Outgoing message
     @Column(name = "dir", nullable = false)
     @Enumerated(EnumType.STRING)
     private MessageDirection direction;
@@ -38,13 +39,7 @@ public class ContactMessage {
     @JoinColumn(name = "contact", referencedColumnName = "id")
     private Contact contact;
 
-
     @Column(name = "msg_preview")
     private String messagePreview;
-
-    @Column(name="msg_source")
-    private String messageSource;
-
-
 
 }

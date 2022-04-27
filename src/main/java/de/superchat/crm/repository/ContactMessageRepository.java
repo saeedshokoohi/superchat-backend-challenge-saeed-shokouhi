@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ContactMessageRepository extends CrudRepository<ContactMessage,Long> {
 
-    List<ContactMessage> findByContactEmail(String email);
+    List<ContactMessage> findAllByContactId(long contactId);
+
 }

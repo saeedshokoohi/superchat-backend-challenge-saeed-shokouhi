@@ -24,7 +24,7 @@ public class ContactMessageDto {
 
     private String message;
 
-    private BasicContactDto contact;
+    private ContactDto contact;
 
     private String messagePreview;
 

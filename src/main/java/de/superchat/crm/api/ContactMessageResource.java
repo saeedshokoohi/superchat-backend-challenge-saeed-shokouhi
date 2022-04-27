@@ -2,7 +2,7 @@ package de.superchat.crm.api;
 
 
 import de.superchat.crm.dto.ContactMessageDto;
-import de.superchat.crm.dto.ContactMessageListDto;
+import de.superchat.crm.dto.ConversationDto;
 import de.superchat.crm.dto.SendMessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
@@ -32,15 +32,15 @@ public class ContactMessageResource {
     public ResponseEntity<ContactMessageDto> sendMessage(SendMessageDto sendMessageDto) throws InvalidModelException, PlaceholderHandlingException {
 
        return ResponseEntity.ok(
-        contactMessageService.sendTextMessage(sendMessageDto.getReceiverEmail(), sendMessageDto.getMessage()));
+        contactMessageService.sendTextMessage(sendMessageDto.getContactId(), sendMessageDto.getMessage()));
 
     }
 
-    @GetMapping("list/{email}")
-    public ResponseEntity<ContactMessageListDto> messageListByEmail(@PathVariable("email") String email)
+    @GetMapping("conversation-by-contact-id/{contactId}")
+    public ResponseEntity<ConversationDto> messageListByEmail(@PathVariable("contactId") long contactId)
     {
         return ResponseEntity.ok(
-                contactMessageService.messageListByEmail(email)
+                contactMessageService.conversationByContactId(contactId)
         );
     }
 
