@@ -18,7 +18,10 @@ public class ContactValidator {
     public static final String LAST_NAME_IS_REQUIRED = "Last Name is required.";
     public static final String NAME_IS_REQUIRED = "Name is required.";
     public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "Email is not a valid email address";
-    public static final String THERE_IS_NO_CONTACT_WITH_GIVEN_EMAIL_ADDRESS = "There is no contact with given email address";
+    public static final String CONTACT_ID_IS_NOT_VALID = "Contact Id is not valid";
+    private static final String PLATFORM_IS_REQUIRED = " Client platform is required for contact";
+    private static final String CLIENT_ID_IS_REQUIRED = " ClientId is required for contact";
+    public static final String CLIENT_ID_PLATFORM_PAIR_ALREADY_EXISTS = "given clientId & platform pair already exists!";
 
 
     private ContactValidator() {
@@ -35,14 +38,30 @@ public class ContactValidator {
         List<String> validationMessages=new ArrayList<>();
         if(contact.getEmail()==null) validationMessages.add(EMAIL_IS_REQUIRED);
         if(contact.getLastName()==null) validationMessages.add(LAST_NAME_IS_REQUIRED);
-        if(contact.getName()==null) validationMessages.add(NAME_IS_REQUIRED);
+        if( contact.getName()==null) validationMessages.add(NAME_IS_REQUIRED);
+        if( contact.getClientPlatform()==null) validationMessages.add(PLATFORM_IS_REQUIRED);
+        if( contact.getClientId()==null) validationMessages.add(CLIENT_ID_IS_REQUIRED);
         if(!isEmailValid(contact.getEmail()))validationMessages.add(EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS);
 
         if(!validationMessages.isEmpty())
             throw new InvalidModelException("Invalid contact ",validationMessages.toArray(new String[0]));
-
     }
+    /**
+     * Validating the given Contact as Temp contact
+     * @param contact to validate
+     * @throws InvalidModelException if object is not valid and the message shows the reason
+     */
+    public static void validateTempContact(ContactDto contact) throws InvalidModelException
+    {
+        if(contact==null)  throw new InvalidModelException(CONTACT_IS_NULL);
+        List<String> validationMessages=new ArrayList<>();
+        if( contact.getClientPlatform()==null) validationMessages.add(PLATFORM_IS_REQUIRED);
+        if( contact.getClientId()==null) validationMessages.add(CLIENT_ID_IS_REQUIRED);
+        if(!isEmailValid(contact.getEmail()))validationMessages.add(EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS);
 
+        if(!validationMessages.isEmpty())
+            throw new InvalidModelException("Invalid contact ",validationMessages.toArray(new String[0]));
+    }
     /**
      * check if given email address is a valid email address
      * @param email address in String

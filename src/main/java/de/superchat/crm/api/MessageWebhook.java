@@ -1,7 +1,7 @@
 package de.superchat.crm.api;
 
 
-import de.superchat.crm.dto.ExternalMessageDto;
+import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.service.WebhookService;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +21,11 @@ public class MessageWebhook {
     }
 
     @PostMapping("receive")
-    public ResponseEntity receiveMessage(@RequestBody ExternalMessageDto message) throws InvalidModelException {
-          webhookService.receiveMessage(message);
+    public ResponseEntity receiveMessage(@RequestBody MessageDto message) throws InvalidModelException {
+        webhookService.receiveMessage(message);
         return ResponseEntity.ok().body(null);
 
     }
-
 
 
 }

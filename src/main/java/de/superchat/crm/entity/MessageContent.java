@@ -20,6 +20,7 @@ public class MessageContent {
 
 
     @Column(name="content_type")
+    @Enumerated(EnumType.STRING)
     private MessageContentType contentType;
 
     @Column(name = "content")

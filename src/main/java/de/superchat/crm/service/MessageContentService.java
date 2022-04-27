@@ -22,6 +22,11 @@ public class MessageContentService {
     }
 
 
+    /**
+     * applying the placeholder logic on the out messages
+     * @param contactMessage
+     * @throws PlaceholderHandlingException
+     */
     public void applyPlaceholders(ContactMessage contactMessage) throws PlaceholderHandlingException {
 
         if (contactMessage == null || contactMessage.getMessageContent() == null || contactMessage.getContact() == null)
@@ -41,7 +46,6 @@ public class MessageContentService {
 
 
     }
-
     /**
      * applying all registered placeholder fillers on given text message
      * @param registeredPlaceholderFillers which need to be applied

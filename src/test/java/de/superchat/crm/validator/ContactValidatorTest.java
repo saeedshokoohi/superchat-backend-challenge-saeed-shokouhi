@@ -15,8 +15,8 @@ class ContactValidatorTest {
     void ValidateContactTestWhenIsValid()
     {
         //given
-        ContactDto contactDto=new ContactDto(122323l,"Name","Last Name","ValidEmail@dss.ddd",null);
-
+        ContactDto contactDto=new ContactDto().setEmail("ValidEmail@dss.ddd")
+                .setClientId("cid").setName("n").setLastName("ln").setClientPlatform("pl");
         //then
         assertDoesNotThrow(()->{ContactValidator.validateContact(contactDto);});
     }
@@ -24,7 +24,8 @@ class ContactValidatorTest {
     void ValidateContactTestWhenNameIsNotValid()
     {
         //given
-        ContactDto contactDto=new ContactDto(122323l,null,"Last Name","ValidEmail@dss.ddd",null);
+        ContactDto contactDto=new ContactDto().setEmail("ValidEmail@dss.ddd")
+                .setClientId("cid").setLastName("ln").setClientPlatform("pl");
         //when
         InvalidModelException exceptionThatWasThrown =assertThrows(InvalidModelException.class, () -> ContactValidator.validateContact(contactDto));
 
@@ -36,7 +37,8 @@ class ContactValidatorTest {
     void ValidateContactTestWhenLastNameIsNotValid()
     {
         //given
-        ContactDto contactDto=new ContactDto(122323l,null,null,"ValidEmail@dss.ddd",null);
+        ContactDto contactDto=new ContactDto().setEmail("ValidEmail@dss.ddd")
+                .setClientId("cid").setName("n").setClientPlatform("pl");
         //when
         InvalidModelException exceptionThatWasThrown =assertThrows(InvalidModelException.class, () -> ContactValidator.validateContact(contactDto));
 
@@ -48,7 +50,8 @@ class ContactValidatorTest {
     void ValidateContactTestWhenEmailIsNotValid()
     {
         //given
-        ContactDto contactDto=new ContactDto(122323l,null,null,"ValidEmail@dsddd",null);
+        ContactDto contactDto=new ContactDto().setEmail("ValidEmaildss.ddd")
+                .setClientId("cid").setName("n").setLastName("ln").setClientPlatform("pl");
         //when
         InvalidModelException exceptionThatWasThrown =assertThrows(InvalidModelException.class, () -> ContactValidator.validateContact(contactDto));
 
