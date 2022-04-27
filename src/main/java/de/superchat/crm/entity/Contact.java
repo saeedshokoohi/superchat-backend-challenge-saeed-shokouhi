@@ -1,22 +1,26 @@
 package de.superchat.crm.entity;
 
-import lombok.AllArgsConstructor;
+import de.superchat.crm.entity.enums.ContactStatus;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "contact",schema = "public" )
+@Table(name = "contact",schema = "public" ,uniqueConstraints = { @UniqueConstraint(columnNames = { "client_id", "client_platform" }) } )
 public class Contact {
 
     @Id
     @GeneratedValue(generator ="contact_sequence")
     private Long id;
+
+    //the client Id which is identifiable in the platform
+    @Column(name="client_id")
+    private String clientId;
+
+    @Column(name="client_platform")
+    private String clientPlatform;
 
     @Column(name = "first_name", nullable = false)
     private String name;
@@ -24,13 +28,38 @@ public class Contact {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false)
     @Email
     private String email;
 
     @Column(name = "date_created")
     private Long dateCreated;
 
+    @Column(name="status")
+    @Enumerated(EnumType.STRING)
+    private ContactStatus status;
+
+    public Contact() {
+    }
+
+    public Contact(Long id, String clientId, String clientPlatform, String name, String lastName, String email, Long dateCreated) {
+        this.id = id;
+        this.clientId = clientId;
+        this.clientPlatform = clientPlatform;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.dateCreated = dateCreated;
+    }
+
+    public Contact(String clientId, String clientPlatform, String name, String lastName, String email, Long dateCreated) {
+        this.clientId = clientId;
+        this.clientPlatform = clientPlatform;
+        this.name = name;
+        this.lastName = lastName;
+        this.email = email;
+        this.dateCreated = dateCreated;
+    }
 
     public String getFullName() {
         return String.format("%s %s", name, lastName);

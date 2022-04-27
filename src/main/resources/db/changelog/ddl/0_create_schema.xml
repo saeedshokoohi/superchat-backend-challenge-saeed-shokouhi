@@ -17,99 +17,103 @@
                         sequenceName="message_content_sequence"
                         startValue="1"/>
     </changeSet>
-    <changeSet id="1650869782542-2"
-               author="SaeedSh (generated)">
-        <createTable tableName="contact">
-            <column name="id" valueSequenceNext="contact_sequence" defaultValueSequenceNext="contact_sequence"
-                    type="BIGINT">
-                <constraints nullable="false"
-                             primaryKey="true"
-                             primaryKeyName="pk_contact"/>
-            </column>
-            <column name="first_name"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="last_name"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="email"
-                    type="VARCHAR(255)">
-                <constraints nullable="false" unique="true"/>
-            </column>
-            <column name="date_created"
-                    type="BIGINT"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="1650869782542-3"
-               author="SaeedSh (generated)">
-        <createTable tableName="contact_message" >
-            <column name="id" valueSequenceNext="contact_message_sequence"
-                    defaultValueSequenceNext="contact_message_sequence"
-                    type="BIGINT">
-                <constraints nullable="false"
-                             primaryKey="true"
-                             primaryKeyName="pk_contact_message"/>
-            </column>
-            <column name="dir"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="date_created"
-                    type="BIGINT"/>
-            <column name="status"
-                    type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="msg_content"
-                    type="BIGINT"/>
-            <column name="contact"
-                    type="BIGINT"/>
-            <column name="msg_preview"
-                    type="VARCHAR(255)"/>
-            <column name="msg_source"
-                    type="VARCHAR(255)"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="1650869782542-4"
-               author="SaeedSh (generated)">
-        <createTable tableName="message_content">
-            <column name="id" valueSequenceNext="message_content_sequence" defaultValueSequenceNext="message_content_sequence"
-                    type="BIGINT">
-                <constraints nullable="false"
-                             primaryKey="true"
-                             primaryKeyName="pk_message_content"/>
-            </column>
-            <column name="content_type"
-                    type="INT"/>
-            <column name="content"
-                    type="ntext"/>
-        </createTable>
-    </changeSet>
-    <changeSet id="1650869782542-5"
-               author="SaeedSh (generated)">
-        <addUniqueConstraint columnNames="email"
-                             constraintName="uc_contact_email"
-                             tableName="contact"/>
-    </changeSet>
-    <changeSet id="1650869782542-6"
-               author="SaeedSh (generated)">
-        <addForeignKeyConstraint baseColumnNames="contact"
-                                 baseTableName="contact_message"
-                                 constraintName="FK_CONTACT_MESSAGE_ON_CONTACT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="contact"
-                                 referencedTableSchemaName="public"/>
-    </changeSet>
-    <changeSet id="1650869782542-7"
-               author="SaeedSh (generated)">
-        <addForeignKeyConstraint baseColumnNames="msg_content"
-                                 baseTableName="contact_message"
-                                 constraintName="FK_CONTACT_MESSAGE_ON_MSG_CONTENT"
-                                 referencedColumnNames="id"
-                                 referencedTableName="message_content"
-                                 referencedTableSchemaName="public"/>
-    </changeSet>
 
-</databaseChangeLog>
+        <changeSet id="1651055400515-1"
+                   author="SaeedSh (generated)">
+            <createTable tableName="contact">
+                <column name="id"
+                        type="BIGINT">
+                    <constraints nullable="false"
+                                 primaryKey="true"
+                                 primaryKeyName="pk_contact"/>
+                </column>
+                <column name="client_id"
+                        type="VARCHAR(255)"/>
+                <column name="client_platform"
+                        type="VARCHAR(255)"/>
+                <column name="first_name"
+                        type="VARCHAR(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="last_name"
+                        type="VARCHAR(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="email"
+                        type="VARCHAR(255)">
+                    <constraints nullable="true"/>
+                </column>
+                <column name="date_created"
+                        type="BIGINT"/>
+                <column name="status"
+                        type="VARCHAR(255)"/>
+            </createTable>
+        </changeSet>
+        <changeSet id="1651055400515-2"
+                   author="SaeedSh (generated)">
+            <createTable tableName="contact_message">
+                <column name="id"
+                        type="BIGINT">
+                    <constraints nullable="false"
+                                 primaryKey="true"
+                                 primaryKeyName="pk_contact_message"/>
+                </column>
+                <column name="dir"
+                        type="VARCHAR(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="date_created"
+                        type="BIGINT"/>
+                <column name="status"
+                        type="VARCHAR(255)">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="msg_content"
+                        type="BIGINT"/>
+                <column name="contact"
+                        type="BIGINT"/>
+                <column name="msg_preview"
+                        type="VARCHAR(255)"/>
+            </createTable>
+        </changeSet>
+        <changeSet id="1651055400515-3"
+                   author="SaeedSh (generated)">
+            <createTable tableName="message_content">
+                <column name="id"
+                        type="BIGINT">
+                    <constraints nullable="false"
+                                 primaryKey="true"
+                                 primaryKeyName="pk_message_content"/>
+                </column>
+                <column name="content_type"
+                        type="VARCHAR(255)"/>
+                <column name="content"
+                        type="VARCHAR(500)"/>
+            </createTable>
+        </changeSet>
+        <changeSet id="1651055400515-4"
+                   author="SaeedSh (generated)">
+            <addUniqueConstraint columnNames="client_id, client_platform"
+                                 constraintName="uc_73c436a78cf25c32126dd3371"
+                                 tableName="contact"/>
+        </changeSet>
+        <changeSet id="1651055400515-5"
+                   author="SaeedSh (generated)">
+            <addForeignKeyConstraint baseColumnNames="contact"
+                                     baseTableName="contact_message"
+                                     constraintName="FK_CONTACT_MESSAGE_ON_CONTACT"
+                                     referencedColumnNames="id"
+                                     referencedTableName="contact"
+                                     referencedTableSchemaName="public"/>
+        </changeSet>
+        <changeSet id="1651055400515-6"
+                   author="SaeedSh (generated)">
+            <addForeignKeyConstraint baseColumnNames="msg_content"
+                                     baseTableName="contact_message"
+                                     constraintName="FK_CONTACT_MESSAGE_ON_MSG_CONTENT"
+                                     referencedColumnNames="id"
+                                     referencedTableName="message_content"
+                                     referencedTableSchemaName="public"/>
+        </changeSet>
+
+    </databaseChangeLog>

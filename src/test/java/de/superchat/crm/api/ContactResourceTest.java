@@ -50,23 +50,31 @@ class ContactResourceTest {
     void testContactList() throws Exception {
         //given
         List<ContactDto> contacts=new ArrayList<>();
-        contacts.add(new ContactDto(4000l,"Saeed","Shokouhi","saeed@gmail.com",null));
+        contacts.add( new ContactDto().setId(4000l).setEmail("saeed@gmail.com")
+                .setClientId("cid").setName("Saeed").setLastName("Shokouhi").setClientPlatform("pl"));
         ContactListDto contactListDto=new ContactListDto(contacts);
         when(contactService.getAll()).thenReturn(contactListDto);
 
         //then
-        String expectedContent="{\"list\":[{\"name\":\"Saeed\",\"lastName\":\"Shokouhi\",\"email\":\"saeed@gmail.com\",\"id\":4000,\"dateCreated\":null,\"fullName\":\"Saeed Shokouhi\"}]}";
         this.mockMvc
                 .perform(get("/api/contact/list")) // perform a request that can be chained
                 .andExpect(status().isOk())
-                .andExpect(content().string(expectedContent));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].name").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].name").value("Saeed"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].lastName").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].lastName").value("Shokouhi"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].clientPlatform").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].clientPlatform").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.list[0].clientId").exists());
     }
 
     @Test
-    void testCreateContact() throws Exception {
+    void testCreateContact() throws Exception, InvalidModelException {
         //given
-        ContactDto contact= new ContactDto(4000l,"Saeed","Shokouhi","saeed@gmail.com", DateTimeUtil.now());
-        when(contactService.create((ContactDto) any())).thenReturn(contact);
+        ContactDto contact= new ContactDto().setId(4000l).setEmail("saeed@gmail.com")
+                .setClientId("cid").setName("Saeed").setLastName("Shokouhi").setClientPlatform("pl").setDateCreated(DateTimeUtil.now());
+        when(contactService.createConfirmedContact((ContactDto) any())).thenReturn(contact);
 
         //then
 
@@ -81,10 +89,11 @@ class ContactResourceTest {
 
     }
     @Test
-    void testCreateContactWhenInvalidModel() throws Exception {
+    void testCreateContactWhenInvalidModel() throws Exception, InvalidModelException {
         //given
-        ContactDto contact= new ContactDto(4000l,"Saeed","Shokouhi","saeed@gmailcom", DateTimeUtil.now());
-        when(contactService.create((ContactDto) any())).thenThrow(InvalidModelException.class);
+        ContactDto contact= new ContactDto().setId(4000l).setEmail("saeed@gmail.com")
+                .setClientId("cid").setName("Saeed").setLastName("Shokouhi").setClientPlatform("pl");
+        when(contactService.createConfirmedContact((ContactDto) any())).thenThrow(InvalidModelException.class);
 
         //then
 

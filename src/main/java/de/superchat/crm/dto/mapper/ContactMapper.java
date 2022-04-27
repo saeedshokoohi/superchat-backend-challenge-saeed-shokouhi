@@ -1,6 +1,5 @@
 package de.superchat.crm.dto.mapper;
 
-import de.superchat.crm.dto.BasicContactDto;
 import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
 import de.superchat.crm.entity.Contact;
@@ -19,7 +18,7 @@ public class ContactMapper {
     public static Contact toEntity(ContactDto contactDto)
     {
         return contactDto==null ? null
-                : new Contact(contactDto.getId(), contactDto.getName(), contactDto.getLastName(),contactDto.getEmail(),contactDto.getDateCreated());
+                : new Contact(contactDto.getId(), contactDto.getClientId(), contactDto.getClientPlatform(), contactDto.getName(), contactDto.getLastName(),contactDto.getEmail(),contactDto.getDateCreated());
     }
 
     /**
@@ -28,15 +27,15 @@ public class ContactMapper {
     public static ContactDto toDto(Contact contact)
     {
         return contact==null ? null
-                : new ContactDto(contact.getId(), contact.getName(), contact.getLastName(),contact.getEmail(),contact.getDateCreated());
-    }
-    /**
-     * mapping Contact to BasicContactDto
-     */
-    public static BasicContactDto toBasicDto(Contact contact)
-    {
-        return contact==null ? null
-                : new BasicContactDto( contact.getName(), contact.getLastName(),contact.getEmail());
+                : new ContactDto()
+                .setId(contact.getId())
+                .setClientId(contact.getClientId())
+                .setClientPlatform(contact.getClientPlatform())
+                .setEmail(contact.getEmail())
+                .setLastName(contact.getLastName())
+                .setName(contact.getName())
+                .setDateCreated(contact.getDateCreated());
+
     }
 
     /**

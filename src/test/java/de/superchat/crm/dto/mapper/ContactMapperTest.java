@@ -28,15 +28,21 @@ class ContactMapperTest {
          String name="saeed";
          String lastName="sh";
          String email="saeed.sh@gmai.com";
-         Long dateCreated= LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+        String clientId="saeed.sh@gmai.com";
+        String platform="email";
+
+        Long dateCreated= LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
          //when
-        Contact actualToEntityResult = ContactMapper.toEntity(new ContactDto(id,name,lastName,email,dateCreated));
+        Contact actualToEntityResult = ContactMapper.toEntity(new ContactDto().setId(id).setEmail(email).setDateCreated(dateCreated)
+                .setClientId(clientId).setName(name).setLastName(lastName).setClientPlatform(platform));
         //then
         assertEquals(id,actualToEntityResult.getId());
         assertEquals(name,actualToEntityResult.getName());
         assertEquals(lastName,actualToEntityResult.getLastName());
         assertEquals(email,actualToEntityResult.getEmail());
         assertEquals(dateCreated,actualToEntityResult.getDateCreated());
+        assertEquals(clientId,actualToEntityResult.getClientId());
+        assertEquals(platform,actualToEntityResult.getClientPlatform());
     }
 
     @Test
@@ -51,15 +57,20 @@ class ContactMapperTest {
         String name="saeed";
         String lastName="sh";
         String email="saeed.sh@gmai.com";
+        String clientId="saeed.sh@gmai.com";
+        String platform="email";
+
         Long dateCreated= LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
         //when
-        ContactDto actualToDto = ContactMapper.toDto(new Contact(id,name,lastName,email,dateCreated));
+        ContactDto actualToDto = ContactMapper.toDto(new Contact(id,clientId,platform,name,lastName,email,dateCreated));
         //then
         assertEquals(id,actualToDto.getId());
         assertEquals(name,actualToDto.getName());
         assertEquals(lastName,actualToDto.getLastName());
         assertEquals(email,actualToDto.getEmail());
         assertEquals(dateCreated,actualToDto.getDateCreated());
+        assertEquals(clientId,actualToDto.getClientId());
+        assertEquals(platform,actualToDto.getClientPlatform());
     }
 
 
@@ -81,8 +92,8 @@ class ContactMapperTest {
     void testToListDto() {
         //given
         Long dateCreated= LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
-        Contact contact1=new Contact(123l,"N1","Ln1","E1@a.d",dateCreated);
-        Contact contact2=new Contact(124l,"N2","Ln2","E2@a.d",dateCreated);
+        Contact contact1=new Contact(123l,"cl1","p","N1","Ln1","E1@a.d",dateCreated);
+        Contact contact2=new Contact(124l,"cl2","p","N2","Ln2","E2@a.d",dateCreated);
         Iterable<Contact> list= List.of(contact1,contact2);
         //when
         ContactListDto contactListDto=ContactMapper.toListDto(list);
