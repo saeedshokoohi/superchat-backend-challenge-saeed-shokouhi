@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class SendMessageDto {
-    //sender email address
-    private String receiverEmail;
+
+    private long contactId;
 
     private String message;
 }
