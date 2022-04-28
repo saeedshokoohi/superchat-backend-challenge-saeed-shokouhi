@@ -40,10 +40,11 @@ public class MessageConsumerService {
     public void consumeReceivedMessageEvents(ConsumerRecord<String, String> cr, @Payload MessageDto message) {
         try {
             contactMessageService.receiveExternalMessage(message);
-        } catch (InvalidModelException e) {
+        } catch (InvalidModelException | Exception e) {
             logger.error("Error on consuming received message :");
             logger.error(e.getMessage());
         }
+
     }
 
     /**

@@ -2,6 +2,7 @@ package de.superchat.crm.service;
 
 import de.superchat.crm.broker.MessageProducerService;
 import de.superchat.crm.dto.*;
+import de.superchat.crm.dto.api.SendMessageDto;
 import de.superchat.crm.dto.mapper.ContactMessageMapper;
 import de.superchat.crm.entity.Contact;
 import de.superchat.crm.entity.ContactMessage;
@@ -14,7 +15,6 @@ import de.superchat.crm.placeholder.PlaceholderService;
 import de.superchat.crm.repository.ContactMessageRepository;
 import de.superchat.crm.util.DateTimeUtil;
 import de.superchat.crm.validator.MessageValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -118,7 +118,7 @@ public class ContactMessageService {
         message.setMessage(contactMessage.getMessageContent().getContent());
         message.setPlatform(contact.get().getClientPlatform());
         message.setPlatformUserId(contact.get().getClientId());
-        messageProducerService.emitReceivedMessageEvent(message);
+        messageProducerService.emitSentMessageEvent(message);
     }
     /**
      * wrapping a ContactMessage object using contact and message

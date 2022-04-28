@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.TestPropertySource;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.timeout;
@@ -23,7 +24,8 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @DirtiesContext
-@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:29092", "port=29092" })
+@EmbeddedKafka(partitions = 1, brokerProperties = { "listeners=PLAINTEXT://localhost:39093", "port=39093" })
+@TestPropertySource("classpath:application-test.yml")
  class MessageConsumerTest {
 
     @Autowired
@@ -48,7 +50,7 @@ import static org.mockito.Mockito.verify;
 
         //then
         ArgumentCaptor<MessageDto> argumentCaptor = ArgumentCaptor.forClass(MessageDto.class);
-        verify(contactMessageService,timeout(1000)).receiveExternalMessage(argumentCaptor.capture());
+        verify(contactMessageService,timeout(10_000).atLeast(1)).receiveExternalMessage(argumentCaptor.capture());
 
         MessageDto paramMessage = argumentCaptor.getValue();
 
@@ -71,7 +73,7 @@ import static org.mockito.Mockito.verify;
 
         //then
         ArgumentCaptor<MessageDto> argumentCaptor = ArgumentCaptor.forClass(MessageDto.class);
-        verify(messageSenderService,timeout(1000)).sendMessageToTargetPlatform(argumentCaptor.capture());
+        verify(messageSenderService,timeout(10_000).atLeast(1)).sendMessageToTargetPlatform(argumentCaptor.capture());
 
         MessageDto paramMessage = argumentCaptor.getValue();
 

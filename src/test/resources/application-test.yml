@@ -1,0 +1,17 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/superchatdb"
+    username: postgres
+    password: saewdfg
+  #handling database change log config
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.xml
+  kafka:
+    bootstrap-servers: "localhost:39093"
+server:
+  port: 8282

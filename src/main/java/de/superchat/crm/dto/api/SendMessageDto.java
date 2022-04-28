@@ -1,4 +1,4 @@
-package de.superchat.crm.dto;
+package de.superchat.crm.dto.api;
 
 import lombok.Data;
 

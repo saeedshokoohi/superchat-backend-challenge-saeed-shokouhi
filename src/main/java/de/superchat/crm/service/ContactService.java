@@ -48,8 +48,8 @@ public class ContactService {
         contact.setClientId(contactDto.getClientId());
         contact.setClientPlatform(contactDto.getClientPlatform());
         contact.setEmail(contactDto.getEmail());
-        contact.setName(contactDto.getName()!=null? contact.getName() : contact.getClientId());
-        contact.setLastName(contactDto.getLastName());
+        contact.setName(contactDto.getName()!=null? contactDto.getName() : contactDto.getClientId());
+        contact.setLastName(contactDto.getLastName()!=null?contactDto.getLastName() : "" );
         contact.setStatus(ContactStatus.TEMP);
         return this.contactRepository.save(contact);
     }
@@ -80,7 +80,7 @@ public class ContactService {
      */
     public Contact getOrCreateContact(ContactDto contactDto) throws InvalidModelException {
        Optional<Contact> contact= this.contactRepository.findByClientIdAndClientPlatform(contactDto.getClientId(),contactDto.getClientPlatform());
-       return contact.orElse(this.createTempContact(contactDto));
+       return (contact.isPresent())? contact.get() :this.createTempContact(contactDto);
     }
 
     private void checkClientAndPlatformIsUnique(String clientId,String platform) throws InvalidModelException {

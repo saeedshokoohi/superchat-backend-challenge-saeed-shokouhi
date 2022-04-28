@@ -45,10 +45,7 @@ class ContactMapperTest {
         assertEquals(platform,actualToEntityResult.getClientPlatform());
     }
 
-    @Test
-    void testToDtoWhenNull() {
-        assertNull(ContactMapper.toDto(null));
-    }
+
 
     @Test
     void testToDto() {

@@ -15,7 +15,7 @@ import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactMessageDto;
 import de.superchat.crm.dto.ConversationDto;
 import de.superchat.crm.dto.MessageDto;
-import de.superchat.crm.dto.SendMessageDto;
+import de.superchat.crm.dto.api.SendMessageDto;
 import de.superchat.crm.entity.Contact;
 import de.superchat.crm.entity.ContactMessage;
 import de.superchat.crm.entity.MessageContent;

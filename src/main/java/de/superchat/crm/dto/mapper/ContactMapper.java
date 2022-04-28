@@ -2,6 +2,7 @@ package de.superchat.crm.dto.mapper;
 
 import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
+import de.superchat.crm.dto.api.AddContactDto;
 import de.superchat.crm.entity.Contact;
 
 import java.util.ArrayList;
@@ -37,6 +38,18 @@ public class ContactMapper {
                 .setDateCreated(contact.getDateCreated());
 
     }
+
+    public static ContactDto toDto(AddContactDto contact)
+    {
+        return contact==null ? null
+                : new ContactDto()
+                .setClientId(contact.getClientId())
+                .setClientPlatform(contact.getClientPlatform())
+                .setEmail(contact.getEmail())
+                .setLastName(contact.getLastName())
+                .setName(contact.getName());
+    }
+
 
     /**
      * converting Iterable of Entity to ContactListDto

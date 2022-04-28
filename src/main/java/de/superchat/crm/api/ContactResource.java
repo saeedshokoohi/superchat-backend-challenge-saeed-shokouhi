@@ -1,8 +1,10 @@
 package de.superchat.crm.api;
 
 
+import de.superchat.crm.dto.api.AddContactDto;
 import de.superchat.crm.dto.ContactDto;
 import de.superchat.crm.dto.ContactListDto;
+import de.superchat.crm.dto.mapper.ContactMapper;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.service.ContactService;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,9 @@ public class ContactResource {
      */
 
     @PostMapping("create")
-    public ResponseEntity<ContactDto> createContact(@RequestBody @Valid ContactDto contact) throws InvalidModelException {
+    public ResponseEntity<ContactDto> createContact(@RequestBody @Valid AddContactDto contact) throws InvalidModelException {
             return ResponseEntity.ok()
-                    .body(contactService.createConfirmedContact(contact));
+                    .body(contactService.createConfirmedContact(ContactMapper.toDto(contact)));
     }
 
     /**

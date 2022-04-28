@@ -33,7 +33,7 @@ public class MessageProducerService {
      * @param msg
      */
     public void emitSentMessageEvent(MessageDto msg) {
-        kafkaTemplate.send(KafkaConstants.RECEIVED_MESSAGE_TOPIC, msg);
+        kafkaTemplate.send(KafkaConstants.SEND_MESSAGE_TOPIC, msg);
     }
 
 }

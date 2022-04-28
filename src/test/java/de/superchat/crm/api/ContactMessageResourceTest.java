@@ -2,6 +2,7 @@ package de.superchat.crm.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import de.superchat.crm.dto.*;
+import de.superchat.crm.dto.api.SendMessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.service.ContactMessageService;
 import org.junit.jupiter.api.Test;

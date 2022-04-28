@@ -22,14 +22,13 @@ public class Contact {
     @Column(name="client_platform")
     private String clientPlatform;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     private String name;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email", nullable = false)
-    @Email
+    @Column(name = "email")
     private String email;
 
     @Column(name = "date_created")

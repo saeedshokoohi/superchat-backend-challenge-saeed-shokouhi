@@ -3,7 +3,7 @@ package de.superchat.crm.api;
 
 import de.superchat.crm.dto.ContactMessageDto;
 import de.superchat.crm.dto.ConversationDto;
-import de.superchat.crm.dto.SendMessageDto;
+import de.superchat.crm.dto.api.SendMessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
 import de.superchat.crm.service.ContactMessageService;
