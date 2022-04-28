@@ -1,5 +1,6 @@
 package de.superchat.crm.service;
 
+import de.superchat.crm.broker.MessageProducerService;
 import de.superchat.crm.dto.*;
 import de.superchat.crm.dto.mapper.ContactMessageMapper;
 import de.superchat.crm.entity.Contact;
@@ -11,13 +12,11 @@ import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
 import de.superchat.crm.placeholder.PlaceholderService;
 import de.superchat.crm.repository.ContactMessageRepository;
-import de.superchat.crm.repository.ContactRepository;
 import de.superchat.crm.util.DateTimeUtil;
 import de.superchat.crm.validator.MessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,41 +30,48 @@ public class ContactMessageService {
     private final ContactMessageRepository contactMessageRepository;
     private final ContactService contactService;
     private final PlaceholderService placeholderService;
+    private final MessageProducerService messageProducerService;
 
 
-    public ContactMessageService(ContactMessageRepository contactMessageRepository,  ContactService contactService, PlaceholderService placeholderService) {
+    public ContactMessageService(ContactMessageRepository contactMessageRepository, ContactService contactService, PlaceholderService placeholderService, MessageProducerService messageProducerService) {
         this.contactMessageRepository = contactMessageRepository;
         this.contactService = contactService;
         this.placeholderService = placeholderService;
+        this.messageProducerService = messageProducerService;
     }
 
     /**
      * Send text message to contact
      *
-     * @param contactId receiver contactId
-     * @param message   the message to send
      * @return saved message detail
      * @throws InvalidModelException        is validation error
      * @throws PlaceholderHandlingException if any exception in placeholder filling
      */
-    public ContactMessageDto sendTextMessage(long contactId, String message) throws InvalidModelException, PlaceholderHandlingException {
+    public ContactMessageDto sendTextMessage(SendMessageDto sendMessageDto) throws InvalidModelException, PlaceholderHandlingException {
         //getting contact by email
-        Optional<Contact> contact = contactService.findById(contactId);
+        Optional<Contact> contact = contactService.findById(sendMessageDto.getContactId());
         if (contact.isEmpty()) {
             throw new InvalidModelException("Invalid ContactId", CONTACT_ID_IS_NOT_VALID);
         } else {
             //creating ContactMessage entity
-            ContactMessage contactMessage = createContactTextMessage(contact.get(), message);
+            ContactMessage contactMessage = createContactTextMessage(contact.get(), sendMessageDto.getMessage());
             contactMessage.setMessageStatus(MessageStatus.PENDING);
             contactMessage.setDirection(MessageDirection.OUT);
+
             //applying placeholders
             placeholderService.applyPlaceholders(contactMessage);
             contactMessage.setMessagePreview(makeTextMessagePreview(contactMessage.getMessageContent().getContent()));
-            return ContactMessageMapper.toDto(this.contactMessageRepository.save(contactMessage));
+
+            //persisting the message
+            ContactMessage savedMessage=this.contactMessageRepository.save(contactMessage);
+
+            //emitting the message
+            emitMessageToMessageBroker(contact, contactMessage);
+
+            return ContactMessageMapper.toDto(savedMessage);
         }
 
     }
-
 
     /**
      * receiving external message in persisting the message is IN message
@@ -102,7 +108,18 @@ public class ContactMessageService {
         return new ConversationDto(contact.orElse(null), messages);
     }
 
-
+    /**
+     * emitting the message to broker for dispatching to external platforms
+     * @param contact
+     * @param contactMessage
+     */
+    private void emitMessageToMessageBroker(Optional<Contact> contact, ContactMessage contactMessage) {
+        MessageDto message=new MessageDto();
+        message.setMessage(contactMessage.getMessageContent().getContent());
+        message.setPlatform(contact.get().getClientPlatform());
+        message.setPlatformUserId(contact.get().getClientId());
+        messageProducerService.emitReceivedMessageEvent(message);
+    }
     /**
      * wrapping a ContactMessage object using contact and message
      *

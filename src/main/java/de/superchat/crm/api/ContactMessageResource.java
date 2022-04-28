@@ -32,7 +32,7 @@ public class ContactMessageResource {
     public ResponseEntity<ContactMessageDto> sendMessage(SendMessageDto sendMessageDto) throws InvalidModelException, PlaceholderHandlingException {
 
        return ResponseEntity.ok(
-        contactMessageService.sendTextMessage(sendMessageDto.getContactId(), sendMessageDto.getMessage()));
+        contactMessageService.sendTextMessage(sendMessageDto));
 
     }
 
