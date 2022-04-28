@@ -21,7 +21,7 @@ public class MessageSenderService {
 
         if(message!=null)
         {
-            MessageDispatcher sender = MessageDispatcherFactory.getMessageSenderByPlatform(message.getPlatform());
+            MessageDispatcher sender = MessageDispatcherFactory.getMessageDispatcherByPlatform(message.getPlatform());
             sender.sendMessage(message);
         }
     }

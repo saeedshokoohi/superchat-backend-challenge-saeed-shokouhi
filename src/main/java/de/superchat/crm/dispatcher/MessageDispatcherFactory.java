@@ -13,7 +13,7 @@ public class MessageDispatcherFactory {
      * @return suitable implementation of MessageDispatcher based on the given platform
      * @throws UnsupportedPlatformException when there is no implemented sender matched with the given platform
      */
-   public static MessageDispatcher getMessageSenderByPlatform(String platform) throws UnsupportedPlatformException {
+   public static MessageDispatcher getMessageDispatcherByPlatform(String platform) throws UnsupportedPlatformException {
 
        switch (platform.toLowerCase())
        {
