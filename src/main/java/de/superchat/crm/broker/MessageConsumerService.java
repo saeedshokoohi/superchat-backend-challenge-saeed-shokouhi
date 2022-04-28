@@ -1,6 +1,6 @@
 package de.superchat.crm.broker;
 
-import de.superchat.crm.dispatcher.impl.MessageSenderService;
+import de.superchat.crm.dispatcher.MessageSenderService;
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.SendingExternalMessageException;

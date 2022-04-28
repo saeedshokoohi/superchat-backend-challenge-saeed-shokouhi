@@ -1,6 +1,7 @@
 package de.superchat.crm.dispatcher;
 
 import de.superchat.crm.dispatcher.impl.EmailMessageDispatcher;
+import de.superchat.crm.dispatcher.impl.SmsMessageDispatcher;
 import de.superchat.crm.exception.UnsupportedPlatformException;
 
 public class MessageDispatcherFactory {

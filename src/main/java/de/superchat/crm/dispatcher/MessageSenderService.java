@@ -1,10 +1,8 @@
-package de.superchat.crm.dispatcher.impl;
+package de.superchat.crm.dispatcher;
 
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.SendingExternalMessageException;
 import de.superchat.crm.exception.UnsupportedPlatformException;
-import de.superchat.crm.dispatcher.MessageDispatcher;
-import de.superchat.crm.dispatcher.MessageDispatcherFactory;
 import org.springframework.stereotype.Service;
 
 /**

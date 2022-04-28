@@ -1,5 +1,6 @@
-package de.superchat.crm.dispatcher;
+package de.superchat.crm.dispatcher.impl;
 
+import de.superchat.crm.dispatcher.MessageDispatcher;
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.SendingExternalMessageException;
 

@@ -2,14 +2,12 @@ package de.superchat.crm.broker;
 
 
 import de.superchat.crm.config.kafka.KafkaConstants;
-import de.superchat.crm.dispatcher.impl.MessageSenderService;
+import de.superchat.crm.dispatcher.MessageSenderService;
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.SendingExternalMessageException;
 import de.superchat.crm.exception.UnsupportedPlatformException;
 import de.superchat.crm.service.ContactMessageService;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +59,7 @@ import static org.mockito.Mockito.verify;
     }
 
     @Test
-    public void consumeSentMessageEventsTest() throws  UnsupportedPlatformException, SendingExternalMessageException {
+     void consumeSentMessageEventsTest() throws  UnsupportedPlatformException, SendingExternalMessageException {
         //given
 
         MessageDto messageDto=new MessageDto();

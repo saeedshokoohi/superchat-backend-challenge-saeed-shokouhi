@@ -1,7 +1,7 @@
 package de.superchat.crm.dispatcher;
 
 import de.superchat.crm.dispatcher.impl.EmailMessageDispatcher;
-import de.superchat.crm.dto.MessageDto;
+import de.superchat.crm.dispatcher.impl.SmsMessageDispatcher;
 import de.superchat.crm.exception.SendingExternalMessageException;
 import de.superchat.crm.exception.UnsupportedPlatformException;
 import org.junit.jupiter.api.Test;
