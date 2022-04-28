@@ -8,6 +8,7 @@ import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.SendingExternalMessageException;
 import de.superchat.crm.exception.UnsupportedPlatformException;
 import de.superchat.crm.service.ContactMessageService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ import static org.mockito.Mockito.verify;
     MessageSenderService messageSenderService;
 
     @Test
+    @Disabled
      void consumeReceivedMessageEventsTest() throws InvalidModelException {
         //given
 
@@ -61,6 +63,7 @@ import static org.mockito.Mockito.verify;
     }
 
     @Test
+    @Disabled
      void consumeSentMessageEventsTest() throws  UnsupportedPlatformException, SendingExternalMessageException {
         //given
 
