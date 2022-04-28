@@ -24,7 +24,7 @@ This project is simulating a basic CRM app having current features :
 
 
 ### Test
-- **Juint 5**
+- **JUnit 5**
 - **Mockito**
 
 
