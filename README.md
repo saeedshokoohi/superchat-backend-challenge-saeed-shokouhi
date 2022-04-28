@@ -28,10 +28,9 @@ This project is simulating a basic CRM app having current features :
 - **Mockito**
 
 
-### Packaging & build
+### Packaging & build tools
 
 - **Maven**
-- **Npm**
 - **Docker & Docker-compose**
 
 ### Source control
@@ -46,7 +45,7 @@ This project is fully dockerized and on any OS where Docker is installed, the fo
 
 
 
-**The default urls are :**
+**Api Docs are available on :**
 
 - swagger docs : [http://localhost:8282/swagger-ui/](http://localhost:8282/swagger-ui/ "http://localhost:3000/swagger-ui/")
 
