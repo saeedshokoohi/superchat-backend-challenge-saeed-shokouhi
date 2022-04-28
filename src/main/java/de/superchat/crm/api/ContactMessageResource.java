@@ -28,7 +28,7 @@ public class ContactMessageResource {
      * @throws InvalidModelException if sendMessage object is not valid
      * @throws PlaceholderHandlingException if exception on handling the placeholders values
      */
-    @PostMapping("send")
+    @PostMapping("send-message")
     public ResponseEntity<ContactMessageDto> sendMessage(SendMessageDto sendMessageDto) throws InvalidModelException, PlaceholderHandlingException {
 
        return ResponseEntity.ok(
@@ -37,7 +37,7 @@ public class ContactMessageResource {
     }
 
     @GetMapping("conversation-by-contact-id/{contactId}")
-    public ResponseEntity<ConversationDto> messageListByEmail(@PathVariable("contactId") long contactId)
+    public ResponseEntity<ConversationDto> messageListByContactId(@PathVariable("contactId") long contactId)
     {
         return ResponseEntity.ok(
                 contactMessageService.conversationByContactId(contactId)
