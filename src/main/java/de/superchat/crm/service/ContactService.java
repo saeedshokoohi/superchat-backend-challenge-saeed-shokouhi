@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class ContactService {
 
-    final ContactRepository contactRepository;
+   private final ContactRepository contactRepository;
 
     public ContactService(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
@@ -89,4 +89,7 @@ public class ContactService {
     }
 
 
+    public Optional<Contact> findById(long contactId) {
+        return contactRepository.findById(contactId);
+    }
 }

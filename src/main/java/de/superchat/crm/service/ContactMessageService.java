@@ -9,6 +9,7 @@ import de.superchat.crm.entity.enums.MessageDirection;
 import de.superchat.crm.entity.enums.MessageStatus;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
+import de.superchat.crm.placeholder.PlaceholderService;
 import de.superchat.crm.repository.ContactMessageRepository;
 import de.superchat.crm.repository.ContactRepository;
 import de.superchat.crm.util.DateTimeUtil;
@@ -25,18 +26,17 @@ import static de.superchat.crm.validator.ContactValidator.CONTACT_ID_IS_NOT_VALI
 
 @Service
 public class ContactMessageService {
+    public static final int MESSAGE_PREVIEW_MAX_LENGTH = 50;
 
-    public static final String SUPERCHAT = "SUPERCHAT";
-    final ContactMessageRepository contactMessageRepository;
-    final ContactRepository contactRepository;
-    final MessageContentService messageContentService;
-    @Autowired
-    ContactService contactService;
+    private final ContactMessageRepository contactMessageRepository;
+    private final ContactService contactService;
+    private final PlaceholderService placeholderService;
 
-    public ContactMessageService(ContactMessageRepository contactMessageRepository, ContactRepository contactRepository, MessageContentService messageContentService) {
+
+    public ContactMessageService(ContactMessageRepository contactMessageRepository,  ContactService contactService, PlaceholderService placeholderService) {
         this.contactMessageRepository = contactMessageRepository;
-        this.contactRepository = contactRepository;
-        this.messageContentService = messageContentService;
+        this.contactService = contactService;
+        this.placeholderService = placeholderService;
     }
 
     /**
@@ -50,7 +50,7 @@ public class ContactMessageService {
      */
     public ContactMessageDto sendTextMessage(long contactId, String message) throws InvalidModelException, PlaceholderHandlingException {
         //getting contact by email
-        Optional<Contact> contact = contactRepository.findById(contactId);
+        Optional<Contact> contact = contactService.findById(contactId);
         if (contact.isEmpty()) {
             throw new InvalidModelException("Invalid ContactId", CONTACT_ID_IS_NOT_VALID);
         } else {
@@ -59,44 +59,13 @@ public class ContactMessageService {
             contactMessage.setMessageStatus(MessageStatus.PENDING);
             contactMessage.setDirection(MessageDirection.OUT);
             //applying placeholders
-            messageContentService.applyPlaceholders(contactMessage);
-            contactMessage.setMessagePreview(messageContentService.makeTextMessagePreview(contactMessage.getMessageContent().getContent()));
+            placeholderService.applyPlaceholders(contactMessage);
+            contactMessage.setMessagePreview(makeTextMessagePreview(contactMessage.getMessageContent().getContent()));
             return ContactMessageMapper.toDto(this.contactMessageRepository.save(contactMessage));
         }
 
     }
 
-    /**
-     * receiving external message in persisting the message is IN message
-     *
-     * @param message received message
-     * @throws InvalidModelException if received message has validation error
-     */
-    public void receiveExternalMessage(ExternalMessageDto message) throws InvalidModelException {
-        //getting contact by email
-
-
-    }
-
-
-
-    /**
-     * wrapping a ContactMessage object using contact and message
-     *
-     * @param contact relevant contact
-     * @param message text message
-     * @return initiated ContactMessage
-     */
-    private ContactMessage createContactTextMessage(Contact contact, String message) {
-        ContactMessage contactMessage = new ContactMessage();
-        contactMessage.setContact(contact);
-
-        contactMessage.setMessageContent(new MessageContent(message));
-        contactMessage.setDateCreated(DateTimeUtil.now());
-
-        return contactMessage;
-
-    }
 
     /**
      * receiving external message in persisting the message is IN message
@@ -113,7 +82,7 @@ public class ContactMessageService {
         contactMessage.setMessageStatus(MessageStatus.DELIVERED);
         contactMessage.setDirection(MessageDirection.IN);
 
-        contactMessage.setMessagePreview(messageContentService.makeTextMessagePreview(message.getMessage()));
+        contactMessage.setMessagePreview(makeTextMessagePreview(message.getMessage()));
         this.contactMessageRepository.save(contactMessage);
 
     }
@@ -133,5 +102,42 @@ public class ContactMessageService {
         return new ConversationDto(contact.orElse(null), messages);
     }
 
+
+    /**
+     * wrapping a ContactMessage object using contact and message
+     *
+     * @param contact relevant contact
+     * @param message text message
+     * @return initiated ContactMessage
+     */
+    private ContactMessage createContactTextMessage(Contact contact, String message) {
+        ContactMessage contactMessage = new ContactMessage();
+        contactMessage.setContact(contact);
+        contactMessage.setMessageContent(new MessageContent(message));
+        contactMessage.setDateCreated(DateTimeUtil.now());
+
+        return contactMessage;
+
+    }
+
+    /**
+     * making a preview message from full message
+     * @param message is the original message
+     * @return
+     */
+    private String makeTextMessagePreview(String message) {
+        return message==null?"": limitedMessageLength(message, MESSAGE_PREVIEW_MAX_LENGTH);
+    }
+
+    /**
+     * shrinking the message based on the given maxLength
+     * @param message the original message
+     * @param maxLength
+     * @return
+     */
+    private String limitedMessageLength(String message, int maxLength)
+    {
+        return  message.length()>maxLength? message.substring(0,maxLength-1)+" ...": message;
+    }
 
 }

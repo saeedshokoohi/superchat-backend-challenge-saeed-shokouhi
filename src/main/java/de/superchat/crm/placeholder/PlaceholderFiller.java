@@ -1,7 +1,10 @@
-package de.superchat.crm.service.placeholder;
+package de.superchat.crm.placeholder;
 
 import de.superchat.crm.exception.PlaceholderHandlingException;
 
+/**
+ * a general interface for placeholder implementations
+ */
 public interface PlaceholderFiller {
 
     /**

@@ -1,16 +1,14 @@
 package de.superchat.crm.broker;
 
 import de.superchat.crm.dto.MessageDto;
-import de.superchat.crm.entity.enums.MessageStatus;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.SendingExternalMessageException;
 import de.superchat.crm.exception.UnsupportedPlatformException;
 import de.superchat.crm.service.ContactMessageService;
-import de.superchat.crm.service.MessageSenderService;
+import de.superchat.crm.dispatcher.impl.MessageSenderService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;

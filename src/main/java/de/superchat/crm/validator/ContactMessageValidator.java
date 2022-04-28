@@ -13,11 +13,11 @@ import java.util.List;
 public class ContactMessageValidator {
 
 
-    private static final String CONTACT_IS_NULL = "Contact is null!";
-    public static final String EMAIL_IS_REQUIRED = "Email is required.";
-    public static final String LAST_NAME_IS_REQUIRED = "Last Name is required.";
-    public static final String NAME_IS_REQUIRED = "Name is required.";
-    public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "Email is not a valid email address";
+    private static final String CONTACT_IS_NULL = "CONTACT_IS_NULL";
+    public static final String EMAIL_IS_REQUIRED = "EMAIL_IS_REQUIRED";
+    public static final String LAST_NAME_IS_REQUIRED = "LAST_NAME_IS_REQUIRED";
+    public static final String NAME_IS_REQUIRED = "NAME_IS_REQUIRED";
+    public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS";
 
     private ContactMessageValidator() {
     }

@@ -1,6 +1,7 @@
-package de.superchat.crm.service.placeholder;
+package de.superchat.crm.placeholder.impl;
 
 import de.superchat.crm.exception.PlaceholderHandlingException;
+import de.superchat.crm.placeholder.PlaceholderFiller;
 
 public class ContactNamePlaceholderFiller implements PlaceholderFiller {
 

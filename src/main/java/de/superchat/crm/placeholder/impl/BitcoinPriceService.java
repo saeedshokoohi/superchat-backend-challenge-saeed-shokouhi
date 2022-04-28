@@ -1,4 +1,4 @@
-package de.superchat.crm.client;
+package de.superchat.crm.placeholder.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;

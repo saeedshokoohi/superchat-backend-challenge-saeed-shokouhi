@@ -1,23 +1,21 @@
-package de.superchat.crm.service;
+package de.superchat.crm.placeholder;
 
-import de.superchat.crm.client.BitcoinPriceService;
 import de.superchat.crm.entity.ContactMessage;
 import de.superchat.crm.exception.PlaceholderHandlingException;
-import de.superchat.crm.service.placeholder.BitcoinPricePlaceholderFiller;
-import de.superchat.crm.service.placeholder.ContactNamePlaceholderFiller;
-import de.superchat.crm.service.placeholder.PlaceholderFiller;
+import de.superchat.crm.placeholder.impl.BitcoinPricePlaceholderFiller;
+import de.superchat.crm.placeholder.impl.BitcoinPriceService;
+import de.superchat.crm.placeholder.impl.ContactNamePlaceholderFiller;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class MessageContentService {
+public class PlaceholderService {
 
-    public static final int MESSAGE_PREVIEW_MAX_LENGTH = 20;
-    final BitcoinPriceService bitcoinPriceService;
+    private final BitcoinPriceService bitcoinPriceService;
 
-    public MessageContentService(BitcoinPriceService bitcoinPriceService) {
+    public PlaceholderService(BitcoinPriceService bitcoinPriceService) {
         this.bitcoinPriceService = bitcoinPriceService;
     }
 
@@ -32,10 +30,8 @@ public class MessageContentService {
         if (contactMessage == null || contactMessage.getMessageContent() == null || contactMessage.getContact() == null)
             return ;
 
-        //registering placeholder fillers
-        List<PlaceholderFiller> registeredPlaceholderFillers = new ArrayList<>();
-        registeredPlaceholderFillers.add(new ContactNamePlaceholderFiller(contactMessage.getContact().getFullName()));
-        registeredPlaceholderFillers.add(new BitcoinPricePlaceholderFiller(bitcoinPriceService));
+        //getting registered placeholders
+        List<PlaceholderFiller> registeredPlaceholderFillers = getRegisteredPlaceholders(contactMessage);
 
         //applying placeholder fillers on message
         String filledMessage = contactMessage.getMessageContent().getContent();
@@ -46,6 +42,20 @@ public class MessageContentService {
 
 
     }
+
+    /**
+     *  returns a list of registered placeholders
+     *  this list can be obtained base on configs or annotations
+     * @param contactMessage
+     * @return
+     */
+    private List<PlaceholderFiller> getRegisteredPlaceholders(ContactMessage contactMessage) {
+        List<PlaceholderFiller> registeredPlaceholderFillers = new ArrayList<>();
+        registeredPlaceholderFillers.add(new ContactNamePlaceholderFiller(contactMessage.getContact().getFullName()));
+        registeredPlaceholderFillers.add(new BitcoinPricePlaceholderFiller(bitcoinPriceService));
+        return registeredPlaceholderFillers;
+    }
+
     /**
      * applying all registered placeholder fillers on given text message
      * @param registeredPlaceholderFillers which need to be applied
@@ -58,15 +68,5 @@ public class MessageContentService {
             filledMessage = placeholderFiller.fillPlaceholder(filledMessage);
         }
         return filledMessage;
-    }
-
-
-    public String makeTextMessagePreview(String message) {
-        return message==null?"": limitedMessageLength(message, MESSAGE_PREVIEW_MAX_LENGTH);
-    }
-
-    private String limitedMessageLength(String message, int maxLength)
-    {
-      return  message.length()>maxLength? message.substring(0,maxLength-1)+" ...": message;
     }
 }

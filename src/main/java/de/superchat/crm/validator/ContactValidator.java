@@ -13,15 +13,15 @@ import java.util.List;
 public class ContactValidator {
 
 
-    private static final String CONTACT_IS_NULL = "Contact is null!";
-    public static final String EMAIL_IS_REQUIRED = "Email is required.";
-    public static final String LAST_NAME_IS_REQUIRED = "Last Name is required.";
-    public static final String NAME_IS_REQUIRED = "Name is required.";
-    public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "Email is not a valid email address";
-    public static final String CONTACT_ID_IS_NOT_VALID = "Contact Id is not valid";
-    private static final String PLATFORM_IS_REQUIRED = " Client platform is required for contact";
-    private static final String CLIENT_ID_IS_REQUIRED = " ClientId is required for contact";
-    public static final String CLIENT_ID_PLATFORM_PAIR_ALREADY_EXISTS = "given clientId & platform pair already exists!";
+    private static final String CONTACT_IS_NULL = "CONTACT_IS_NULL";
+    public static final String EMAIL_IS_REQUIRED = "EMAIL_IS_REQUIRED";
+    public static final String LAST_NAME_IS_REQUIRED = "LAST_NAME_IS_REQUIRED";
+    public static final String NAME_IS_REQUIRED = "NAME_IS_REQUIRED";
+    public static final String EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS = "EMAIL_IS_NOT_A_VALID_EMAIL_ADDRESS";
+    public static final String CONTACT_ID_IS_NOT_VALID = "CONTACT_ID_IS_NOT_VALID";
+    private static final String PLATFORM_IS_REQUIRED = " PLATFORM_IS_REQUIRED";
+    private static final String CLIENT_ID_IS_REQUIRED = "CLIENT_ID_IS_REQUIRED";
+    public static final String CLIENT_ID_PLATFORM_PAIR_ALREADY_EXISTS = "CLIENT_ID_PLATFORM_PAIR_ALREADY_EXISTS";
 
 
     private ContactValidator() {

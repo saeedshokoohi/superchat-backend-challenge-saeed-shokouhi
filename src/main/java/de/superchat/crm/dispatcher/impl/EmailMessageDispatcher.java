@@ -1,12 +1,13 @@
-package de.superchat.crm.service.sender;
+package de.superchat.crm.dispatcher.impl;
 
+import de.superchat.crm.dispatcher.MessageDispatcher;
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.SendingExternalMessageException;
 
 /**
  * It is a mock implementation of MessageSender when platform is Email
  */
-public class EmailMessageSenderAdapter implements MessageSenderAdapter{
+public class EmailMessageDispatcher implements MessageDispatcher {
     @Override
     public boolean sendMessage(MessageDto message) throws SendingExternalMessageException {
         try{

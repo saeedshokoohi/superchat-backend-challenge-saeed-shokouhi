@@ -9,10 +9,10 @@ import java.util.List;
 
 public class MessageValidator {
 
-    private static final String MESSAGE_IS_NULL = "Message is null!";
-    private static final String MESSAGE_PLATFORM_IS_REQUIRED = "Platform is required!";
-    private static final String MESSAGE_PLATFORM_USER_ID_IS_REQUIRED = "Platform userId is required!";
-    private static final String MESSAGE_CONTENT_IS_REQUIRED = "Message is required";
+    private static final String MESSAGE_IS_NULL = "MESSAGE_IS_NULL";
+    private static final String MESSAGE_PLATFORM_IS_REQUIRED = "MESSAGE_PLATFORM_IS_REQUIRED";
+    private static final String MESSAGE_PLATFORM_USER_ID_IS_REQUIRED = "MESSAGE_PLATFORM_USER_ID_IS_REQUIRED";
+    private static final String MESSAGE_CONTENT_IS_REQUIRED = "MESSAGE_CONTENT_IS_REQUIRED";
 
     public static void validateReceivedMessages(MessageDto message) throws InvalidModelException
     {

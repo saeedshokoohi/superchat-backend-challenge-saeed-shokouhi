@@ -1,10 +1,9 @@
 package de.superchat.crm.service;
 
 import de.superchat.crm.broker.MessageProducerService;
-import de.superchat.crm.dto.ExternalMessageDto;
 import de.superchat.crm.dto.MessageDto;
 import de.superchat.crm.exception.InvalidModelException;
-import org.springframework.beans.factory.annotation.Autowired;
+import de.superchat.crm.validator.MessageValidator;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +16,14 @@ public class WebhookService {
         this.contactMessageService = contactMessageService;
     }
 
-
+    /**
+     * checking the message validation and sending to message broker
+     * @param message
+     * @throws InvalidModelException
+     */
     public void receiveMessage(MessageDto message) throws InvalidModelException {
-  contactMessageService.emitReceivedMessageEvent(message);
+        MessageValidator.validateReceivedMessages(message);
+        contactMessageService.emitReceivedMessageEvent(message);
     }
-
 
 }

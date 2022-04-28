@@ -35,8 +35,11 @@ public class ContactMessageMapper {
      * @return
      */
     public static BasicMessageDto toBasicMessage(ContactMessage contactMessage) {
-       if(contactMessage==null || contactMessage.getMessageContent()==null)return null;
-        return new BasicMessageDto(DateTimeUtil.fromEpochInSecond(contactMessage.getDateCreated()),contactMessage.getMessageContent().getContent(),contactMessage.getDirection(),contactMessage.getMessageStatus());
+        return (contactMessage==null || contactMessage.getMessageContent()==null) ?null:
+                new BasicMessageDto(contactMessage.getId(),
+                        DateTimeUtil.fromEpochInSecond(contactMessage.getDateCreated()),
+                        contactMessage.getMessageContent().getContent(),contactMessage.getDirection(),
+                        contactMessage.getMessageStatus());
 
     }
 }
