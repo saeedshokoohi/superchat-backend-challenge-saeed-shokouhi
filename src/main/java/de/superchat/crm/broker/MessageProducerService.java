@@ -20,6 +20,7 @@ public class MessageProducerService {
 
     /**
      * firing an event message which a message has been received
+     *
      * @param msg
      */
     public void emitReceivedMessageEvent(MessageDto msg) {
@@ -27,7 +28,8 @@ public class MessageProducerService {
     }
 
     /**
-     * firing and event message that has been sent out
+     * firing and event message that a new message has been sent out
+     *
      * @param msg
      */
     public void emitSentMessageEvent(MessageDto msg) {
