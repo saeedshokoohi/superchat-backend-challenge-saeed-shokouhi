@@ -16,7 +16,7 @@ This project is simulating a basic CRM app having current features :
 - Sending messages to external platforms is not implemented, but just relevant interfaces are specified, and mock implementations have been done.
 - I assume that this is a single-user application.
 - Contact from external platforms must have "platform" and "clientId" to be identified and sent a message to them.
-- 
+- Placeholders which is currently supported have the following formats : ${contactname} ${bitcoinprice}
 ## Frameworks and design decisions
 
 ### Back-end side
