@@ -4,11 +4,12 @@ This project is simulating a basic CRM app having current features :
 
 
 ##  Features
-- Adding contact
-- List of current contacts
-- Sending message to contact
-- Receiving message from the external resources by providing a webhook
-- List of messages per contact as a conversation
+- Adding contact.
+- List of current contacts.
+- Sending message to contact.
+- Receiving message from the external resources by providing a webhook.
+- Handling placeholders in sending message content.
+- List of messages per contact as a conversation.
 
 ## Assumptions
 - Authentication and authorization are not included for simplicity.
