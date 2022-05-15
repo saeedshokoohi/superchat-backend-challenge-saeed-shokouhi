@@ -31,6 +31,7 @@ public class ContactMessageResource {
     @PostMapping("send-message")
     public ResponseEntity<ContactMessageDto> sendMessage(SendMessageDto sendMessageDto) throws InvalidModelException, PlaceholderHandlingException {
 
+
        return ResponseEntity.ok(
         contactMessageService.sendTextMessage(sendMessageDto));
 

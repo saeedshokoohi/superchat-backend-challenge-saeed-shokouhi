@@ -11,14 +11,14 @@ import de.superchat.crm.entity.enums.MessageDirection;
 import de.superchat.crm.entity.enums.MessageStatus;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
+import de.superchat.crm.placeholder.PlaceholderFiller;
 import de.superchat.crm.placeholder.PlaceholderService;
 import de.superchat.crm.repository.ContactMessageRepository;
 import de.superchat.crm.util.DateTimeUtil;
 import de.superchat.crm.validator.MessageValidator;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static de.superchat.crm.validator.ContactValidator.CONTACT_ID_IS_NOT_VALID;
@@ -27,10 +27,14 @@ import static de.superchat.crm.validator.ContactValidator.CONTACT_ID_IS_NOT_VALI
 public class ContactMessageService {
     public static final int MESSAGE_PREVIEW_MAX_LENGTH = 50;
 
+    private Set<PlaceholderFiller> registeredPlaceholderFillers;
+
     private final ContactMessageRepository contactMessageRepository;
     private final ContactService contactService;
     private final PlaceholderService placeholderService;
     private final MessageProducerService messageProducerService;
+
+
 
 
     public ContactMessageService(ContactMessageRepository contactMessageRepository, ContactService contactService, PlaceholderService placeholderService, MessageProducerService messageProducerService) {
@@ -40,6 +44,19 @@ public class ContactMessageService {
         this.messageProducerService = messageProducerService;
     }
 
+    /**
+     * registering a new placeholder filler to be applied on send messages
+     * @param placeholderFillers
+     */
+    public void registerPlaceHolderFiller(PlaceholderFiller ...placeholderFillers)
+    {
+        if(registeredPlaceholderFillers==null)registeredPlaceholderFillers=new HashSet<>();
+        for(PlaceholderFiller placeholderFiller:placeholderFillers)
+        {
+            this.registeredPlaceholderFillers.add(placeholderFiller);
+        }
+
+    }
     /**
      * Send text message to contact
      *
@@ -59,7 +76,7 @@ public class ContactMessageService {
             contactMessage.setDirection(MessageDirection.OUT);
 
             //applying placeholders
-            placeholderService.applyPlaceholders(contactMessage);
+            applyPlaceholdersOnMessage(contactMessage);
             contactMessage.setMessagePreview(makeTextMessagePreview(contactMessage.getMessageContent().getContent()));
 
             //persisting the message
@@ -71,6 +88,16 @@ public class ContactMessageService {
             return ContactMessageMapper.toDto(savedMessage);
         }
 
+    }
+
+    /**
+     * applying placeholder on message
+     * @param contactMessage
+     * @throws PlaceholderHandlingException
+     */
+    private void applyPlaceholdersOnMessage(ContactMessage contactMessage) throws PlaceholderHandlingException {
+        if(this.registeredPlaceholderFillers!=null && !this.registeredPlaceholderFillers.isEmpty())
+        placeholderService.applyPlaceholders(contactMessage,this.registeredPlaceholderFillers);
     }
 
     /**

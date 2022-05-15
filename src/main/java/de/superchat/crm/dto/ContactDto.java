@@ -61,7 +61,7 @@ public class ContactDto {
     }
 
     public String getFullName() {
-        return String.format("%s %s", name, lastName);
+        return String.format("%s %s", name==null?"":name, lastName==null?"":lastName);
     }
 
     @Override

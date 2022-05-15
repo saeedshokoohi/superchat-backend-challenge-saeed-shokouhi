@@ -1,6 +1,7 @@
 package de.superchat.crm.placeholder.impl;
 
 import de.superchat.crm.exception.PlaceholderHandlingException;
+import de.superchat.crm.placeholder.MessageContext;
 import de.superchat.crm.placeholder.PlaceholderFiller;
 import org.springframework.web.client.RestClientException;
 
@@ -14,7 +15,7 @@ public class BitcoinPricePlaceholderFiller implements PlaceholderFiller {
     }
 
     @Override
-    public String fillPlaceholder(String originalMessage) throws PlaceholderHandlingException {
+    public String fillPlaceholder(MessageContext context,String originalMessage) throws PlaceholderHandlingException {
 
         if (originalMessage == null || !originalMessage.contains(PLACE_HOLDER)) return originalMessage;
         try {

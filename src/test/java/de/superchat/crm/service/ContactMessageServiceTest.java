@@ -25,13 +25,21 @@ import de.superchat.crm.entity.enums.MessageDirection;
 import de.superchat.crm.entity.enums.MessageStatus;
 import de.superchat.crm.exception.InvalidModelException;
 import de.superchat.crm.exception.PlaceholderHandlingException;
+import de.superchat.crm.placeholder.PlaceholderFiller;
 import de.superchat.crm.placeholder.PlaceholderService;
+import de.superchat.crm.placeholder.impl.BitcoinPricePlaceholderFiller;
+import de.superchat.crm.placeholder.impl.BitcoinPriceService;
+import de.superchat.crm.placeholder.impl.ContactNamePlaceholderFiller;
 import de.superchat.crm.repository.ContactMessageRepository;
 
 import java.util.ArrayList;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +64,19 @@ class ContactMessageServiceTest {
     @MockBean
     MessageProducerService messageProducerService;
 
+    @MockBean
+    BitcoinPriceService bitcoinPriceService;
+
+    Set<PlaceholderFiller> registeredPlaceHolderFillers;
+    @BeforeEach
+     void  init()
+    {
+        registeredPlaceHolderFillers =new HashSet<>();
+        registeredPlaceHolderFillers.add(new BitcoinPricePlaceholderFiller(bitcoinPriceService));
+        registeredPlaceHolderFillers.add(new ContactNamePlaceholderFiller());
+
+    }
+
     @Test
     void testSendTextMessage() throws InvalidModelException, PlaceholderHandlingException {
 
@@ -67,13 +88,13 @@ class ContactMessageServiceTest {
 
         ContactMessage contactMessage = getSampleContactMessage(message, messageContent, opContact);
 
-        doNothing().when(this.placeholderService).applyPlaceholders((ContactMessage) any());
+        doNothing().when(this.placeholderService).applyPlaceholders((ContactMessage) any(),any());
         when(this.contactMessageRepository.save((ContactMessage) any())).thenReturn(contactMessage);
 
         SendMessageDto sendMessageDto = new SendMessageDto();
         sendMessageDto.setMessage(message);
         sendMessageDto.setContactId(opContact.getId());
-
+        contactMessageService.registerPlaceHolderFiller(registeredPlaceHolderFillers.toArray(PlaceholderFiller[]::new));
 
         //when
         ContactMessageDto actualSendTextMessageResult = this.contactMessageService.sendTextMessage(sendMessageDto);
@@ -93,7 +114,7 @@ class ContactMessageServiceTest {
         assertEquals(opContact.getLastName(), contact2.getLastName());
         assertEquals(opContact.getClientPlatform(), contact2.getClientPlatform());
 
-        verify(this.placeholderService).applyPlaceholders((ContactMessage) any());
+        verify(this.placeholderService).applyPlaceholders((ContactMessage) any(),any());
         verify(this.contactService).findById(anyLong());
         verify(this.contactMessageRepository).save((ContactMessage) any());
     }

@@ -20,6 +20,9 @@ public class MessageWebhook {
         this.webhookService = webhookService;
     }
 
+    /**
+     * receiving message from external platforms
+     */
     @PostMapping("receive")
     public ResponseEntity receiveMessage(@RequestBody MessageDto message) throws InvalidModelException {
         webhookService.receiveMessage(message);

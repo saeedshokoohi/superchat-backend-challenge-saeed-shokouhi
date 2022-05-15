@@ -12,6 +12,6 @@ public interface PlaceholderFiller {
      * @param originalMessage
      * @return
      */
-    String fillPlaceholder(String originalMessage) throws PlaceholderHandlingException;
+    String fillPlaceholder(MessageContext context,String originalMessage) throws PlaceholderHandlingException;
 
 }
