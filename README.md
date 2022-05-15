@@ -56,7 +56,7 @@ This project is fully dockerized and on any OS where Docker is installed, the fo
 
 
 
-**Api Docs are available on :**
+**Api docs would be available after project startup :**
 
 - swagger docs : [http://localhost:8282/swagger-ui/](http://localhost:8282/swagger-ui/ "http://localhost:3000/swagger-ui/")
 
